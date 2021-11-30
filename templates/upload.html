@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block container %}
+<div class="content content-fixed" style="margin-top: 0px">
+    <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+      <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+        <div>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+              <i data-feather="layers"></i>
+              <li class="breadcrumb-item"><a href="#">支付清算</a></li>
+              <li class="breadcrumb-item active" aria-current="page">进口付汇</li>
+            </ol>
+          </nav>
+          <h4 class="mg-b-0 tx-spacing--1">进口付汇</h4>
+        </div>
+      </div>
+      <div class="row row-sm mg-t-20 mg-b-30">
+        <div class="col-sm-12">
+          <div data-label="步骤导航" class="df-example">
+            <ul class="steps">
+              <li class="step-item active">
+                <a href="" class="step-link">
+                  <span class="step-number">1</span>
+                  <span class="step-title">上传单据</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">2</span>
+                  <span class="step-title">OCR识别</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">3</span>
+                  <span class="step-title">区块链校验</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">4</span>
+                  <span class="step-title">付汇申请</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">5</span>
+                  <span class="step-title">填写付汇申请</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">6</span>
+                  <span class="step-title">数据BSN上链</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">7</span>
+                  <span class="step-title">数据校验</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row row-sm mg-b-10">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+          <div style="height: 400px;width: 100%" class="card card-body">
+            <div style="margin: auto;font-size: 50px;color:	#A9A9A9 ">暂无图片</div>
+          </div>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+      <div class="divider-text">Example Text</div>
+      <div class="row row-sm mg-b-10">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8 tx-center">
+          {% if form.errors %}
+          <div class="alert alert-danger" role="alert">
+            {{ form.file.errors[0] }}
+          </div>
+          {% endif %}
+          <form action="/upload" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <div class="row">
+              <div class="col-sm-6">
+                <input type="file" name="file" style="padding-top:10px" />
+              </div>
+              <div class="col-sm-6 text-right">
+                <button type="submit" class="btn btn-primary">上传</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

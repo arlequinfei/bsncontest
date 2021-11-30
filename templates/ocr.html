@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+
+{% block container %}
+  <div class="content content-fixed" style="margin-top: 0px" id="app">
+    <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+      <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+        <div>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+              <i data-feather="layers"></i>
+              <li class="breadcrumb-item"><a href="#">支付清算</a></li>
+              <li class="breadcrumb-item active" aria-current="page">进口付汇</li>
+            </ol>
+          </nav>
+          <h4 class="mg-b-0 tx-spacing--1">进口付汇</h4>
+        </div>
+      </div>
+      <div class="row row-sm mg-t-20 mg-b-30">
+        <div class="col-sm-12">
+          <div data-label="步骤导航" class="df-example">
+            <ul class="steps">
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">1</span>
+                  <span class="step-title">上传单据</span>
+                </a>
+              </li>
+              <li class="step-item active" id="step2">
+                <a href="" class="step-link">
+                  <span class="step-number">2</span>
+                  <span class="step-title">OCR识别</span>
+                </a>
+              </li>
+              <li class="step-item " id="step3">
+                <a href="" class="step-link">
+                  <span class="step-number">3</span>
+                  <span class="step-title">区块链校验</span>
+                </a>
+              </li>
+              <li class="step-item " id="step4">
+                <a href="" class="step-link">
+                  <span class="step-number">4</span>
+                  <span class="step-title">付汇申请</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">5</span>
+                  <span class="step-title">填写付汇申请</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">6</span>
+                  <span class="step-title">数据BSN上链</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">7</span>
+                  <span class="step-title">数据校验</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row row-sm mg-b-10">
+        <div class="col-sm-12">
+          <div style="min-height: 400px;width: 100%" class="card card-body">
+            <div style="margin: auto;font-size: 50px;color:	#A9A9A9 ">
+              <a href="/static/uploads/{{ img }}" data-fslightbox="gallery">
+                <img src="/static/uploads/{{ img }}" style="width: 100%">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="divider-text">Example Text</div>
+      <div class="row row-sm mg-b-10">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8 tx-center">
+          {% if form.errors %}
+            <div class="alert alert-danger" role="alert">
+
+            </div>
+          {% endif %}
+          <form action="/upload" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <div class="row">
+              <div class="col-sm-3"></div>
+              <div class="col-sm-3 text-left">
+                <button type="button" class="btn btn-primary btn-block" @click="ocr">OCR识别
+                </button>
+              </div>
+              <div class="col-sm-3 text-right">
+                <button type="button" class="btn btn-primary btn-block" @click="check">区块链校验</button>
+              </div>
+              <div class="col-sm-3"></div>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+      <div class="divider-text">操作</div>
+      <div class="row mg-t-20">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+          <form action="{{ url_for("ocr", img=img) }}" method="post">
+            {{ form.csrf_token }}
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>{{ form.cus_id.label }}</label>
+                <input type="text"
+                       v-model="orc_data.cus_id"
+                       name="cus_id"
+                       class="form-control"
+                       :class="{'bc-valid':verify.cus_id == 1,'bc-invalid': verify.cus_id == 2}">
+              </div>
+              <div class="form-group col-md-6">
+                <label>{{ form.receiver.label }}</label>
+                <input type="text" v-model="orc_data.receiver" name="receiver" class="form-control"
+                       :class="{'bc-valid':verify.receiver == 1,'bc-invalid': verify.receiver == 2}">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>{{ form.sender.label }}</label>
+                <input type="text" v-model="orc_data.sender" name="sender" class="form-control"
+                       :class="{'bc-valid':verify.sender == 1,'bc-invalid': verify.sender == 2}">
+              </div>
+              <div class="form-group col-md-6">
+                <label>{{ form.consumer_unit.label }}</label>
+                <input type="text" v-model="orc_data.consumer_unit" name="consumer_unit" class="form-control"
+                       :class="{'bc-valid':verify.consumer_unit == 1,'bc-invalid': verify.consumer_unit == 2}">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>{{ form.delivery_numbers.label }}</label>
+                <input type="text" v-model="orc_data.delivery_numbers" name="delivery_numbers"
+                       class="form-control"
+                       :class="{'bc-valid':verify.delivery_numbers == 1,'bc-invalid': verify.delivery_numbers == 2}">
+              </div>
+              <div class="form-group col-md-6">
+                <label>{{ form.contract_id.label }}</label>
+                <input
+                    type="text"
+                    v-model="orc_data.contract_id"
+                    name="contract_id"
+                    class="form-control"
+                    :class="{'bc-valid':verify.contract_id == 1,'bc-invalid': verify.contract_id == 2}">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>{{ form.entry_clearance.label }}</label>
+                <input type="text" v-model="orc_data.entry_clearance" name="entry_clearance"
+                       class="form-control"
+                       :class="{'bc-valid':verify.entry_clearance == 1,'bc-invalid': verify.entry_clearance == 2}">
+              </div>
+              <div class="form-group col-md-6">
+                <label>{{ form.item_id.label }}</label>
+                <input type="text" v-model="orc_data.item_id" name="item_id" class="form-control"
+                       :class="{'bc-valid':verify.item_id == 1,'bc-invalid': verify.item_id == 2}">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>{{ form.item_name.label }}</label>
+                <input type="text" v-model="orc_data.item_name" name="item_name" class="form-control"
+                       :class="{'bc-valid':verify.item_name == 1,'bc-invalid': verify.item_name == 2}">
+              </div>
+              <div class="form-group col-md-6" :class="{error: verify.c}">
+                <label>{{ form.total_price.label }}</label>
+                <input type="text" v-model="orc_data.total_price" name="total_price" class="form-control"
+                       :class="{'bc-valid':verify.total_price == 1,'bc-invalid': verify.total_price == 2}">
+              </div>
+            </div>
+            <div style="margin: auto;width: 88px;height: 38px">
+              <button type="submit" class="btn btn-primary" id="btn-exchange" v-if="can_exchange">付汇申请</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+       <!-- Modal -->
+      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">成功</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+              <div class="media align-sm-items-center">
+                <div class="tx-40 tx-lg-60 lh-0 tx-success"><i class="fab fa-check-circle"></i></div>
+                <div class="media-body mg-l-15">
+                  <h6 class="tx-12 tx-lg-14 tx-semibold tx-uppercase tx-spacing-1 mg-b-5">Validate Successfully</h6>
+                  <div class="d-flex align-items-baseline">
+                    <h2 class="tx-20 tx-lg-28 tx-normal tx-rubik tx-spacing--2 lh-2 mg-b-0 tx-success">区块链校验成功</h2>
+                  </div>
+                </div><!-- media-body -->
+              </div>              
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+          </div>
+        </div>
+      </div>       
+    </div>
+  </div>
+{% endblock %}
+
+{% block page_css %}
+  <style>
+    .bc-valid {
+      border-color: #10b759;
+      padding-right: calc(1.5em + 0.9375rem);
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2310b759' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: center right calc(0.375em + 0.23438rem);
+      background-size: calc(0.75em + 0.46875rem) calc(0.75em + 0.46875rem);
+    }
+
+    .bc-invalid {
+      border-color: #dc3545;
+      padding-right: calc(1.5em + 0.9375rem);
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc3545' viewBox='-2 -2 7 7'%3e%3cpath stroke='%23dc3545' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center right calc(0.375em + 0.23438rem);
+      background-size: calc(0.75em + 0.46875rem) calc(0.75em + 0.46875rem);
+    }
+  </style>
+{% endblock %}
+
+{% block page_js %}
+  <script>
+
+  </script>
+  <script type="module">
+    import {createApp} from 'https://unpkg.com/petite-vue?module'
+
+    createApp({
+      // exposed to all expressions
+      can_exchange: false,
+      orc_data: {
+        'cus_id': '',
+        'receiver': '',
+        'sender': '',
+        'consumer_unit': '',
+        'delivery_numbers': '',
+        'contract_id': '',
+        'entry_clearance': '',
+        'item_id': '',
+        'item_name': '',
+        'total_price': ''
+      },
+      tpl_data: {
+        'cus_id': '',
+        'receiver': '',
+        'sender': '',
+        'consumer_unit': '',
+        'delivery_numbers': '',
+        'contract_id': '',
+        'entry_clearance': '',
+        'item_id': '',
+        'item_name': '',
+        'total_price': ''
+      },
+      verify: {
+        'cus_id': 0,
+        'receiver': 0,
+        'sender': 0,
+        'consumer_unit': 0,
+        'delivery_numbers': 0,
+        'contract_id': 0,
+        'entry_clearance': 0,
+        'item_id': 0,
+        'item_name': 0,
+        'total_price': 0
+      },
+      // getters
+      // methods
+      async ocr() {
+        $('#app').loading({
+          stoppable: false
+        });
+
+        try {
+
+          let res = await axios.get(
+              "{{ url_for("api_ocr", img=img) }}",
+              {timeout: 60*1000}
+          );
+          this.orc_data = res.data;
+          console.log(res);
+
+          $('#app').loading('destroy');
+          $('#step2').removeClass('active')
+          $('#step3').addClass('active')
+          //this.orc_data = {"id": 1};
+
+        } catch (err) {
+          // return (e.message)
+          alert('服务器出错')
+          console.log(err)
+        }
+      },
+      async check() {
+        $('#app').loading({
+          stoppable: false
+        });
+        try {
+          let res_1 = await axios.get(
+              "{{ url_for("api_tpl") }}",
+              {timeout: 30*1000}
+          );
+          this.tpl_data = res_1.data;
+          console.log('tpl_data')
+          console.log(res_1);
+          for (let key in this.verify) {
+            if (this.tpl_data[key] === "") {
+              continue
+            }
+            else if(this.orc_data[key] === this.tpl_data[key] && this.tpl_data[key] !== ""){
+               this.verify[key] = 1;
+            }
+            else {
+              this.verify[key] = 2;
+            }
+          }
+          $('#app').loading('destroy');
+        } catch (err) {
+          // return (e.message)
+          alert('服务器出错');
+          console.log(err);
+        }
+
+        let cnt = 1;
+        for (const [k, v] of Object.entries(this.verify)) {
+          if(v===1) {
+            cnt += 1;
+          }
+        }
+        if (cnt === 9) {
+          this.can_exchange = true;
+          $('#exampleModalLong').modal('show');
+          $('#step3').removeClass('active')
+          $('#step4').addClass('active')
+        }
+
+      }
+    }).mount("#app")
+  </script>
+{% endblock %}

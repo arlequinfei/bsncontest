@@ -1,0 +1,2036 @@
+{% extends "base.html" %}
+
+{% block container %}
+  <div class="content content-fixed" style="margin-top: 0px" id="app">
+    <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+      <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+        <div>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+              <i data-feather="layers"></i>
+              <li class="breadcrumb-item"><a href="#">支付清算</a></li>
+              <li class="breadcrumb-item active" aria-current="page">进口付汇</li>
+            </ol>
+          </nav>
+          <h4 class="mg-b-0 tx-spacing--1">进口付汇</h4>
+        </div>
+      </div>
+      <div class="row row-sm mg-t-20 mg-b-30">
+        <div class="col-sm-12">
+          <div data-label="步骤导航" class="df-example">
+            <ul class="steps">
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">1</span>
+                  <span class="step-title">上传单据</span>
+                </a>
+              </li>
+              <li class="step-item ">
+                <a href="" class="step-link">
+                  <span class="step-number">2</span>
+                  <span class="step-title">OCR识别</span>
+                </a>
+              </li>
+              <li class="step-item ">
+                <a href="" class="step-link">
+                  <span class="step-number">3</span>
+                  <span class="step-title">区块链校验</span>
+                </a>
+              </li>
+              <li class="step-item ">
+                <a href="" class="step-link">
+                  <span class="step-number">4</span>
+                  <span class="step-title">付汇申请</span>
+                </a>
+              </li>
+              <li class="step-item active">
+                <a href="" class="step-link">
+                  <span class="step-number">5</span>
+                  <span class="step-title">填写付汇申请</span>
+                </a>
+              </li>
+              <li class="step-item ">
+                <a href="" class="step-link">
+                  <span class="step-number">6</span>
+                  <span class="step-title">数据BSN上链</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">7</span>
+                  <span class="step-title">数据校验</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div>
+        <form id="form" class="transfor" action="{{ url_for("transfer", cus_id=cus_id) }}" method="POST">
+          {{ form.csrf_token }}
+          <div class="print hide">
+            <div class="print-title">
+              <div class="print-title-text">
+                <h4 style="font-size: 24px;">境外汇款申请书</h4>
+                <p>APPLICATION FOR FUNDS TRANSFERS(OVERSEAS)</p>
+              </div>
+            </div>
+            <div class="print-cause">
+              <div class="print-cause-left">
+                <p>致：中国工商银行</p>
+                <p>TO:INDUSTRIAL AND COMMERCIAL BANK OF CHINA</p>
+              </div>
+              <div class="print-cause-right">
+                <P>日期</P>
+                <P>Date:
+                </P>
+              </div>
+            </div>
+            <div class="print-choice">
+              <div class="print-choice-area">
+                <div class="print-choice-radio hide" style="font-size: 12px;">
+                  <label style="display: flex;align-items: center; margin-right:12px;">
+                    <input type="checkbox" name="电汇">电汇 T/T
+                  </label>
+                  <label style="display: flex;align-items: center; margin-right: 12px;">
+                    <input type="checkbox" name="票汇">票汇 D/D
+                  </label>
+                  <label style="display: flex;align-items: center; margin-right: 12px;">
+                    <input type="checkbox" name="信汇">信汇 M/T
+                  </label>
+                </div>
+                <div class="print-choice-type">
+                  <div class="type-title unified-text" style="margin-bottom: 1px">
+                    <p>发电等级</p>
+                    <p>Priority</p>
+                  </div>
+                  <label style="display: flex;align-items: center; margin-right:12px;">
+                    <input type="checkbox" name="普通">普通 Normal
+                  </label>
+                  <label style="display: flex;align-items: center; margin-right:12px;">
+                    <input type="checkbox" name="加急">加急 Urgent
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="print-report">
+              <div class="bop-rerporting-no">
+                <div class="bop-rerporting-no-name currency-width260">
+                  <p class="unified-text" style="color: red">
+                    申报号码<span>BOP Rerporting No</span>
+                  </p>
+                </div>
+                <div class="bop-rerporting-no-input show" id="bop-rerporting-no-inputs">
+                  <input type="hidden" value="" name="bop_no" id="bop_no">
+                  <p>
+                    <input type="text" value="">
+                    <input type="text" value="">
+                    <input type="text" value="">
+                    <input type="text" value="">
+                    <input type="text" value="">
+                  </p>
+                  <p>
+                    <input type="text" value="">
+                    <input type="text" value="">
+                    <input type="text" value="">
+                    <input type="text" value="">
+                  </p>
+                  <p>
+                    <input type="text" value="">
+                    <input type="text" value="">
+                  </p>
+                  <p>
+                    <input type="text" value="">
+                    <input type="text" value="">
+                    <input type="text" value="">
+                    <input type="text" value="">
+                    <input type="text" value="">
+                  </p>
+                  <p>
+                    <input type="text" value="">
+                    <input type="text" value="">
+                    <input type="text" value="">
+                    <input type="text" value="">
+                  </p>
+                </div>
+              </div>
+              <div class="ref-no-area">
+                <div class="ref-no">
+                  <div class="ref-no-text currency-width260 flex-middle">
+                    <p class="unified-text" style="color: red">银行业务编号</p>
+                    <p class="unified-text" style="color: red">Bank Transac. Ref.No</p>
+                  </div>
+                  <div class="ref-no-input">
+                    <input type="text" value="" name="trans_no">
+                  </div>
+                </div>
+                <div class="drawn-no">
+                  <div class="drawn-no-text currency-width215 flex-middle">
+                    <p class="unified-text" style="color: red">收电行/付款行</p>
+                    <p class="unified-text" style="color: red">Receiver/Drawn on</p>
+                  </div>
+                  <div class="drawn-no-input">
+                    <input style="height: 40px" type="text" value="" name="receiver">
+                  </div>
+                </div>
+              </div>
+              <div class="currency-amount-area">
+                <div class="currency-amount">
+                  <div class="currency-amount-text currency-width260 flex-middle">
+                    <p class="unified-text" style="color: red">汇款币种及金额</p>
+                    <p class="unified-text" style="color: red">
+                      Currency & Interbank SettIement Amount
+                    </p>
+                  </div>
+                  <div class="currency-amount-input">
+                    <input type="text" value="" name="amount">
+
+                  </div>
+                </div>
+                <div class="amount-words">
+                  <div class="amount-words-text currency-width215 flex-middle">
+                    <p class="unified-text">金额大写</p>
+                    <p class="unified-text">Amount in Words</p>
+                  </div>
+                  <div class="amount-words-input">
+                    <input type="text" value="" name="金额大写">
+
+                  </div>
+                </div>
+              </div>
+              <div class="amount-category">
+                <div class="among"><span class="unified-text">其中</span></div>
+                <div class="amount-num">
+                  <div class="amount-num-level">
+                    <p style="width: 220px;color:red">
+                      <span>现汇金额 Amount in FX</span>
+                    </p>
+                    <div class="amount-num-level-input" style="width: 209px">
+                      <input type="text" value="" name="amount_fx">
+                    </div>
+                  </div>
+                  <div class="amount-num-level" style="width: 591px">
+                    <p style="width: 246px">
+                      <span>账号 Account No/Credit Card No.</span>
+                    </p>
+                    <div class="amount-num-level-input">
+                      <input type="text" value="" name="账号">
+
+                    </div>
+                  </div>
+                  <div class="amount-num-level">
+                    <p style="width: 220px">
+                      <span>购汇金额 Amount of Purchase</span>
+                    </p>
+                    <div class="amount-num-level-input" style="width: 209px">
+                      <input type="text" value="">
+
+                    </div>
+                  </div>
+                  <div class="amount-num-level" style="width: 591px">
+                    <p style="width: 246px">
+                      <span>账号 Account No/Credit Card No.</span>
+                    </p>
+                    <div class="amount-num-level-input">
+                      <input type="text" value="">
+
+                    </div>
+                  </div>
+                  <div class="amount-num-level">
+                    <p style="width: 220px">
+                      <span>其它金额 Amount of Others</span>
+                    </p>
+                    <div class="amount-num-level-input" style="width: 209px">
+                      <input type="text" value="">
+
+                    </div>
+                  </div>
+                  <div class="amount-num-level" style="width: 591px">
+                    <p style="width: 246px">
+                      <span>账号 Account No/Credit Card No.</span>
+                    </p>
+                    <div class="amount-num-level-input">
+                      <input type="text" value="">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="remitter-address">
+                <div class="remitter-address-title currency-width260" style="width:260px">
+                  <p class="unified-text" style="color: red">汇款人名称及地址</p>
+                  <p class="unified-text" style="color: red">Remitter's Name & Address</p>
+                </div>
+                <div class="remitter-address-input">
+                  <input type="text" value="" name="remitter">
+                </div>
+              </div>
+              <div class="relative-public">
+                <div class="to-the-public">
+                  <div class="unit-code">
+                    <div class="unit-code-title" style="color: red">
+                      组织机构代码<span>Unit Code</span>
+                    </div>
+                    <div class="unit-code-input show">
+                      <input type="text" value="" name="unit_code">
+                    </div>
+                  </div>
+                </div>
+                <div class="private hide">
+                  <div class="print-choice-radio" style="display: flex; align-items: center;padding: 0 8px;">
+                      <span
+                          style="width: 12px;height: 12px;border-radius: 2px;border: 1px solid #999;margin-right: 3px;"></span>
+                    <p>对私</p>
+                  </div>
+                  <div class="private-category">
+                    <div class="ID-NO">
+                      <p class="unified-text">
+                        个人身份证件号码<span>Individual ID NO.</span>
+                      </p>
+
+                    </div>
+                    <div class="private-input-area">
+                      <div class="private-input hide">
+                        <el-checkbox-group v-model="privatCardTypes" :readonly="readonly">
+                          <el-checkbox class="checkClass unified-text" label="中国居民个人"></el-checkbox>
+                        </el-checkbox-group>
+                        <span class="unified-text">Resident Individual</span>
+                      </div>
+                      <div class="private-input hide">
+                        <el-checkbox-group v-model="privatCardTypes" :readonly="readonly">
+                          <el-checkbox class="checkClass unified-text" label="中国非居民个人"></el-checkbox>
+                        </el-checkbox-group>
+                        <span class="unified-text">Non-Resident Individual</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="correspondent-beneficiary">
+                <div class="correspondent-beneficiary-text font10">
+                  <p>收款银行及代理行<br/>名称及地址</p>
+                  <p>
+                    <i>Correspondent of Beneficiary's</i><br/>
+                    Bank Name & Address
+                  </p>
+                </div>
+                <div class="correspondent-beneficiary-input show">
+                  <p>
+                    <input type="text" value="" name="收款银行及代理行名称及地址">
+
+                  </p>
+                  <p>
+                    <input type="text" value="">
+
+                  </p>
+                </div>
+              </div>
+              <div class="beneficiary-name">
+                <div class="beneficiary-name-text font10">
+                  <p>收款人开户银行<br/>名称及地址</p>
+                  <p>
+                    Beneficiary's Bank Name<br/>
+                    & Address
+                  </p>
+                </div>
+                <div class="correspondent-beneficiary-input font10">
+                  <div class="unified-text flex" style="height: 27px;">
+                    <div class="" style="color: red">
+                      收款人开户银行在其代理行账号 Bene's Bank A/C No.
+                    </div>
+
+                  </div>
+                  <p>
+                    <input type="text" value="" name="bene_bank_no">
+
+                  </p>
+                  <p>
+                    <input type="text" value="">
+
+                  </p>
+                </div>
+              </div>
+              <div class="beneficiary-name">
+                <div class="beneficiary-name-text payee-name-text font10">
+                  <p>收款人名称及地址</p>
+                  <p>Beneficiary's Name & Address</p>
+                </div>
+                <div class="correspondent-beneficiary-input font10">
+                  <div class="unified-text flex" style="height: 21px;">
+                    <div class="" style="color: red">收款人账号 Bene's A/C No.</div>
+
+                  </div>
+                  <p>
+
+                    <input type="text" value="" name="bene_bank">
+                  </p>
+                  <p>
+                    <input type="text" value="">
+
+                  </p>
+                </div>
+              </div>
+              <div class="information">
+                <div class="information-left">
+                  <div class="information-left-title font10">
+                    <p class="unified-text">汇款附言</p>
+                    <p class="unified-text">Remittance Information</p>
+                  </div>
+                  <div class="information-left-area">
+                    <p class="unified-text">
+                      只限140个字位<span>Not Exceeding 140 Characters</span>
+                    </p>
+                    <textarea style="height: 54px"></textarea>
+                  </div>
+                </div>
+                <div class="information-right">
+                  <div class="information-right-title">
+                    <p class="unified-text">国内外费用承担</p>
+                    <p class="unified-text">
+                      ALL Bank's Charges If Any Are To Be Borne By
+                    </p>
+                  </div>
+                  <div class="information-right-chiose hide">
+                    <el-checkbox-group v-model="expenseTypes" class="information-checkbox-group hide">
+                      <el-checkbox class="unified-text" label="汇款人 OUR"></el-checkbox>
+                      <el-checkbox class="unified-text" label="收款人 BEN"></el-checkbox>
+                      <el-checkbox class="unified-text" label="共同 SHA"></el-checkbox>
+                    </el-checkbox-group>
+                  </div>
+                </div>
+              </div>
+              <div class="resident-code">
+                <div class="resident-region font10 wd90">
+                  <div class="unified-text flex" style="height: 20px;">
+                    <div class="wd60">
+                      收款人常驻国家（地区）名称及代码<span>Resident Country/Region Name & Code</span>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="resident-region-code show" style="margin-bottom: 8px;margin-right: 16px;">
+
+                </div>
+              </div>
+              <div class="amount-choice font10">
+                <p class="unified-text">请选择:</p>
+                <div class="amount-choice-radios">
+                  <!-- <el-checkbox-group v-model="businessTypes" class="information-checkbox-group hide">
+                                      <el-checkbox class="unified-text" label="预付货款 Advance Payment"></el-checkbox>
+                                      <el-checkbox class="unified-text" label="货到付款 Payment Against Delivery"></el-checkbox>
+                                      <el-checkbox class="unified-text" label="退款 Refund"></el-checkbox>
+                                      <el-checkbox class="unified-text" label="其他 others"></el-checkbox>
+                                  </el-checkbox-group> -->
+                  <input type="checkbox" name="预付货款" id="">
+                  <input type="checkbox" name="货到付款" id="">
+                  <input type="checkbox" name="退款" id="">
+                  <input type="checkbox" name="其他" id="">
+                </div>
+              </div>
+              <div class="transac">
+                <div class="transac-code">
+                  <div class="transac-code-title font10">
+                    <p class="unified-text">交易编码</p>
+                    <p class="unified-text">
+                      BOP Transac.<br/>
+                      Code
+                    </p>
+                  </div>
+                  <div class="transac-code-input show">
+                    <p>
+                      <input type="text" value="" name="交易编码上">
+
+                    </p>
+                    <p>
+                      <input type="text" value="" name="交易编码下">
+                    </p>
+                  </div>
+                </div>
+                <div class="currency-money">
+                  <div class="currency-money-title font10">
+                    <p class="unified-text">相应币种及金额</p>
+                    <p class="unified-text">Currency & Amount</p>
+                  </div>
+                  <div class="currency-money-input show">
+                    <p>
+                      <input type="text" value="" name="相应币种及金额上">
+
+                    </p>
+                    <p>
+                      <input type="text" value="" name="相应币种及金额下">
+
+                    </p>
+                  </div>
+                </div>
+                <div class="currency-money transac-remark">
+                  <div class="currency-money-title transac-remark-title font10">
+                    <p class="unified-text">交易附言</p>
+                    <p class="unified-text">Transac.Remark</p>
+                  </div>
+                  <div class="currency-money-input transac-remark-input show">
+                    <p>
+                      <input type="text" value="" name="交易附言上" style="width: 330px">
+
+                    </p>
+                    <p>
+                      <input type="text" value="" name="交易附言下" style="width: 330px">
+
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="bonded font10">
+                <div class="bonded-title">本笔款项是否为保税货物项下付款</div>
+                <div class="bonded-choice">
+                  <el-checkbox-group v-model="isBondeds"
+                                     class="information-checkbox-group bonded-checkbox-group hide">
+                    <el-checkbox class="unified-text" label="是"></el-checkbox>
+                    <el-checkbox class="unified-text" label="否"></el-checkbox>
+                  </el-checkbox-group>
+                </div>
+                <div class="contract-no">
+                  <p>
+                    <span class="unified-text unified-text-span">合同号</span>
+                  </p>
+                  <input style="height: 35px;" type="text" name="合同号">
+                </div>
+                <div class="contract-no invoice-no">
+                  <p>
+                    <span class="unified-text unified-text-span">发票号</span>
+                  </p>
+                  <input style="height: 35px;" type="text" name="发票号">
+
+                </div>
+              </div>
+              <div class="bonded font10">
+                <div class="bonded-title">本笔款项是否为保税货物项下付款</div>
+                <div class="bonded-input show">
+                  <input type="text" name="本笔款项是否为保税货物项下付款">
+                </div>
+              </div>
+              <div class="signature">
+                <div class="bank-use-only">
+                  <div class="signature-tile bank-use-only-title font10">
+                    <p class="unified-text">银行专用栏</p>
+                    <p class="unified-text">For Bank Use Only</p>
+                  </div>
+                  <div class="bank-use-only-main">
+                    <div class="bank-use-only-main-item">
+                      <div class="main-item-name">
+                        <p class="unified-text" style="color: red">购汇汇率</p>
+                        <p class="unified-text" style="color: red">Rate</p>
+                      </div>
+                      <div class="main-item-input show">
+                        <input type="text" name="rate">
+                      </div>
+                    </div>
+                    <div class="bank-use-only-main-item">
+                      <div class="main-item-name">
+                        <p class="unified-text" style="color: red">等值人民币</p>
+                        <p class="unified-text" style="color: red">RMB Equivalent</p>
+                      </div>
+                      <div class="main-item-input show">
+                        <input type="text" name="rmb_equ">
+
+                      </div>
+                    </div>
+                    <div class="bank-use-only-main-item">
+                      <div class="main-item-name">
+                        <p class="unified-text" style="color: red">手续费</p>
+                        <p class="unified-text" style="color: red">Commission</p>
+                      </div>
+                      <div class="main-item-input show">
+                        <input type="text" name="commission">
+
+                      </div>
+                    </div>
+                    <div class="bank-use-only-main-item">
+                      <div class="main-item-name">
+                        <p class="unified-text">电报费</p>
+                        <p class="unified-text">Cable Charges</p>
+                      </div>
+                      <div class="main-item-input show">
+                        <input type="text" name="">
+
+                      </div>
+                    </div>
+                    <div class="bank-use-only-main-item">
+                      <div class="main-item-name">
+                        <p class="unified-text" style="color: red">合计</p>
+                        <p class="unified-text" style="color: red">Total Charges</p>
+                      </div>
+                      <div class="main-item-input show">
+                        <input type="text" name="total_charge">
+
+                      </div>
+                    </div>
+                    <div class="bank-use-only-main-item">
+                      <div class="main-item-name">
+                        <p class="unified-text">支付费用方式</p>
+                        <p class="unified-text">In Payment of</p>
+                        <p class="unified-text">the Remittance</p>
+                      </div>
+                      <div class="main-item-input show">
+                        <textarea></textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bottom-info">
+                    <p style="height: 34px">
+                      <span class="unified-text unified-text-span">核印 Sig.Ver</span>
+                    </p>
+                    <input style="height: 34px" type="text" name="核印">
+                  </div>
+                </div>
+                <div class="applicant-signature">
+                  <div class="signature-tile applicant-signature-title font10">
+                    <p class="unified-text">申请人签章</p>
+                    <p class="unified-text">Applicant's Signature</p>
+                  </div>
+                  <div style="height: 310px" class="applicant-signature-main">
+                    <p class="unified-text">
+                      请按照贵行背页所列条款代办以上汇款并进行申报
+                    </p>
+                    <p class="unified-text">
+                      Please Effect The Upwards Remittance,Subject To The
+                      Conditions Overleaf:
+                    </p>
+
+                    <div class="applicant-signature-input">
+                      <div class="input-level">
+                        <div class="input-level-title">
+                          <p class="input-signature-area">
+                            申请人姓名
+                          </p>
+                          <p class="input-signature-area">
+                            Name of Applicant
+                          </p>
+                        </div>
+
+                      </div>
+                      <div class="input-level">
+                        <div class="input-level-title">
+                          <p class="input-signature-area">电话</p>
+                          <p class="input-signature-area">
+                            Phone No.
+                          </p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bottom-info">
+                    <p style="height: 34px">
+                      <span class="unified-text unified-text-span" style="color: red">经办 Maker</span>
+                    </p>
+                    <input style="height: 34px;color: red" type="text" name="maker">
+                  </div>
+                </div>
+                <div class="applicant-signature">
+                  <div class="signature-tile applicant-signature-title font10">
+                    <p class="unified-text">银行签章</p>
+                    <p class="unified-text">Bank's Signature</p>
+                  </div>
+                  <div style="height: 310px" class="applicant-signature-main bank-signature">
+
+                    <div class="applicant-signature-input">
+                      <div class="input-level">
+                        <div class="input-level-title">
+                          <p class="input-signature-area">
+                            核准人签字
+                          </p>
+                          <p class="input-signature-area">
+                            Authorized Person
+                          </p>
+                        </div>
+
+                      </div>
+                      <div class="input-level">
+                        <div class="input-level-title">
+                          <p class="input-signature-area">日期</p>
+                          <p class="input-signature-area">Date</p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bottom-info last-bottom-info">
+                    <p style="height: 34px">
+                      <span class="unified-text unified-text-span" style="color: red">复核 Checker</span>
+                    </p>
+                    <input style="height: 34px" type="text" name="checker">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin: auto;width: 88px;height: 38px">
+              <button type="button" class="btn btn-primary" id="btn-submit">提交数据</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock container %}
+
+{% block page_css %}
+  <style>
+    textarea {
+      resize: none;
+      outline: none;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    input {
+      outline: none;
+      width: 100%;
+      height: 86%;
+      border: none;
+    }
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      font-size: 12px;
+      margin-right: 6px;
+    }
+
+    .font10 {
+      font-size: 10px;
+    }
+
+    .wd30 {
+      width: 30%;
+    }
+
+    .wd40 {
+      width: 40%;
+    }
+
+    .wd50 {
+      width: 50%;
+    }
+
+    .wd60 {
+      width: 60%;
+    }
+
+    .wd90 {
+      width: 90%;
+    }
+
+    .wd100 {
+      width: 100%;
+    }
+
+    .flex {
+      display: flex;
+      align-items: center;
+    }
+
+    .pd-l-10 {
+      padding-left: 10px;
+    }
+
+    .pd-l-70 {
+      padding-left: 70px;
+    }
+
+    .wd65 {
+      width: 65%;
+    }
+
+    .pd-l-15-per {
+      padding-left: 15%;
+    }
+
+    .currency-width260 {
+      width: 260px;
+      box-sizing: border-box;
+      text-align: center;
+      border-right: 1px solid #000000;
+      font-size: 10px;
+    }
+
+    .currency-width215 {
+      width: 245px;
+      box-sizing: border-box;
+      text-align: center;
+      border-right: 1px solid #000000;
+      font-size: 10px;
+    }
+
+    .unified-text {
+      font-size: 12px;
+      margin: 0 auto;
+      /* transform: scale(0.7); */
+    }
+
+    .transform00 {
+      /* transform-origin: 0 0; */
+    }
+
+    .unified-text-span {
+      display: inline-block;
+    }
+
+    .flex-middle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    .print {
+      width: 1100px;
+      height: 1555.5242px;
+      margin: 0 auto;
+      /* padding: 0 41px; */
+      padding-top: 55px;
+      /* padding-right: 25px; */
+    }
+
+    .print-title {
+      font-size: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: url("/static/images/bank_logo.png") left center no-repeat;
+      background-size: 120px 16px;
+      margin-bottom: 16px;
+    }
+
+    .print-title .print-title-text {
+      text-align-last: justify;
+      border-bottom: 1px solid #000;
+    }
+
+    .print-title .print-title-text h4 {
+      padding: 0 10px;
+    }
+
+    .print-title .print-title-text p {
+      font-size: 10px;
+      padding: 0 4px;
+    }
+
+    .print-cause {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 12px;
+      margin-top: 20px;
+    }
+
+    .print-cause .print-cause-left p:last-child {
+      font-size: 8px;
+    }
+
+    .print-cause .print-cause-right input {
+      outline: none;
+      border: none;
+      background: transparent;
+      border-bottom: 1px solid #333333;
+    }
+
+    .print-choice {
+      display: flex;
+      flex-flow: row-reverse;
+    }
+
+    .print-choice .print-choice-area {
+      display: flex;
+      border: 1px solid #333333;
+      padding: 0 12px;
+      height: 50px;
+      /* 新高度 */
+      width: 640px;
+    }
+
+    .print-choice .print-choice-area .print-choice-radio {
+      width: 225px;
+      border-right: 1px solid #333333;
+      /* margin-right: 12px; */
+      display: flex;
+      align-items: center;
+    }
+
+    .print-choice .print-choice-area .print-choice-radio /deep/ .el-checkbox__label {
+      /* transform: scale(0.7); */
+    }
+
+    .print-checkbox-group {
+      /* background: red; */
+      height: 100%;
+      padding: 0 3px;
+      display: flex;
+      align-items: center;
+    }
+
+    .print-checkbox-group .el-checkbox__label {
+      padding-left: 6px;
+    }
+
+    .print-choice .print-choice-area .print-choice-radio {
+      width: 265px;
+    }
+
+    .print-choice .print-choice-area .print-choice-type {
+      width: 365px;
+      display: flex;
+      align-items: center;
+    }
+
+    .print-choice .print-choice-area .print-choice-type .type-title {
+      white-space: nowrap;
+      margin-right: 8px;
+      text-align: center;
+      font-size: 8px;
+    }
+
+    .print-report {
+      border: 1px solid #000000;
+      margin-top: -1px;
+    }
+
+    .print-report input {
+      font-size: 12px;
+    }
+
+    .print-report .bop-rerporting-no {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #000000;
+      height: 50px;
+      /* 新高度 */
+    }
+
+    .print-report .bop-rerporting-no .bop-rerporting-no-name {
+      background: #999;
+      line-height: 50px;
+      /* 新高度 */
+    }
+
+    .print-report .bop-rerporting-no .bop-rerporting-no-name span {
+      font-size: 8px;
+      margin-left: 6px;
+    }
+
+    .print-report .bop-rerporting-no .bop-rerporting-no-input {
+      display: flex;
+      justify-content: space-around;
+      flex-grow: 1;
+      padding: 0 30px;
+      /* margin: 0 25px; */
+      /* margin-left: 20px;
+            margin-right: 34px; */
+      align-items: center;
+    }
+
+    .print-report .bop-rerporting-no .bop-rerporting-no-input input {
+      width: 16px;
+      height: 16px;
+      border: 1px solid #000000;
+      margin-right: 4px;
+      box-sizing: border-box;
+      font-size: 8px;
+    }
+
+    .print-report .ref-no-area {
+      display: flex;
+      height: 44px;
+      /* 新高度 */
+      border-bottom: 1px solid #000000;
+    }
+
+    .print-report .ref-no-area .ref-no {
+      box-sizing: border-box;
+      display: flex;
+    }
+
+    .print-report .ref-no-area .ref-no .ref-no-text {
+      background: #999;
+      position: relative;
+    }
+
+    .print-report .ref-no-area .ref-no .ref-no-text::before {
+      content: "20";
+      width: 24px;
+      height: 12px;
+      line-height: 10px;
+      border: 1px solid #000000;
+      font-style: italic;
+      position: absolute;
+      top: -1px;
+      left: -1px;
+    }
+
+    .print-report .ref-no-area .ref-no .ref-no-text p:last-child {
+      font-size: 8px;
+    }
+
+    .print-report .ref-no-area .ref-no .ref-no-input {
+      width: 210px;
+      border-right: 1px solid #333333;
+    }
+
+    .print-report .ref-no-area .ref-no .ref-no-input input {
+      width: 100%;
+      height: 40px;
+    }
+
+    .print-report .ref-no-area .drawn-no {
+      display: flex;
+    }
+
+    .print-report .ref-no-area .drawn-no .drawn-no-text {
+      background: #999;
+    }
+
+    .print-report .ref-no-area .drawn-no .drawn-no-text p:last-child {
+      font-size: 8px;
+    }
+
+    .print-report .ref-no-area .drawn-no .drawn-no-input {
+      width: 258px;
+    }
+
+    .print-report .ref-no-area .drawn-no .drawn-no-input input {
+      width: 100%;
+      height: 44px;
+    }
+
+    .print-report .currency-amount-area {
+      display: flex;
+      height: 50px;
+      border-bottom: 1px solid #000000;
+    }
+
+    .print-report .currency-amount-area .currency-amount {
+      display: flex;
+    }
+
+    .print-report .currency-amount-area .currency-amount .currency-amount-text {
+      position: relative;
+    }
+
+    .print-report .currency-amount-area .currency-amount .currency-amount-text::before {
+      content: "32A";
+      width: 24px;
+      height: 12px;
+      line-height: 10px;
+      border: 1px solid #000000;
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      font-style: italic;
+    }
+
+    .print-report .currency-amount-area .currency-amount .currency-amount-text p:last-child {
+      /* font-size: 6px; */
+      white-space: nowrap;
+      /* transform: scale(0.7); */
+    }
+
+    .print-report .currency-amount-area .currency-amount .currency-amount-input {
+      width: 210px;
+      border-right: 1px solid #333333;
+    }
+
+    .print-report .currency-amount-area .currency-amount .currency-amount-input input {
+      width: 100%;
+      height: 36px;
+    }
+
+    .print-report .currency-amount-area .amount-words {
+      display: flex;
+    }
+
+    .print-report .currency-amount-area .amount-words .amount-words-text p:last-child {
+      font-size: 8px;
+    }
+
+    .print-report .currency-amount-area .amount-words .amount-words-input {
+      width: 268px;
+    }
+
+    .print-report .currency-amount-area .amount-words .amount-words-input input {
+      width: 100%;
+      height: 36px;
+    }
+
+    .print-report .amount-category {
+      display: flex;
+      /* justify-content: space-between; */
+    }
+
+    .print-report .amount-category .among {
+      width: 41px;
+      border-right: 1px solid #000000;
+      border-bottom: 1px solid #000000;
+      -webkit-writing-mode: vertical-lr;
+      writing-mode: tb-rl;
+      writing-mode: vertical-lr;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .print-report .amount-category .amount-num {
+      display: flex;
+      /* flex-grow: 1; */
+      flex-wrap: wrap;
+      width: 1056px;
+    }
+
+    .print-report .amount-category .amount-num .amount-num-level {
+      line-height: 36px;
+      display: flex;
+      border-bottom: 1px solid #000000;
+      border-right: 1px solid #000000;
+    }
+
+    .print-report .amount-category .amount-num .amount-num-level p {
+      width: 217px;
+      height: 36px;
+      font-size: 10px;
+      text-indent: 6px;
+      border-right: 1px solid #000000;
+    }
+
+    .print-report .amount-category .amount-num .amount-num-level p span {
+      width: 200px;
+      /* display: inline-block; */
+      /* transform: scale(0.7); */
+    }
+
+    .print-report .amount-category .amount-num .amount-num-level .amount-num-level-input {
+      width: 210px;
+    }
+
+    .print-report .amount-category .amount-num .amount-num-level .amount-num-level-input input {
+      width: 100%;
+      height: 16px;
+    }
+
+    .print-report .amount-category .amount-num .amount-num-level:nth-child(even) {
+      border-right: none;
+      width: 627px;
+    }
+
+    .print-report .amount-category .amount-num .amount-num-level:nth-child(even) p {
+      width: 244px;
+    }
+
+    .print-report .amount-category .amount-num .amount-num-level:nth-child(even) .amount-num-level-input {
+      width: 347px;
+    }
+
+    .print-report .amount-category .amount-num .amount-num-level:nth-child(even) .amount-num-level-input input {
+      width: 100%;
+    }
+
+    .print-report .remitter-address {
+      display: flex;
+      height: 62px;
+    }
+
+    .print-report .remitter-address .remitter-address-title {
+      width: 301px;
+      padding: 4px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .print-report .remitter-address .remitter-address-title::before {
+      content: "50a";
+      width: 24px;
+      height: 12px;
+      line-height: 10px;
+      border: 1px solid #000000;
+      position: absolute;
+      top: 0;
+      left: -1px;
+      font-style: italic;
+    }
+
+    .print-report .remitter-address .remitter-address-title p:last-child {
+      font-size: 8px;
+    }
+
+    .print-report .relative-public {
+      display: flex;
+      white-space: nowrap;
+      font-size: 8px;
+    }
+
+    .print-report .relative-public .to-the-public {
+      width: 500px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      border: 1px solid #000000;
+      margin-top: -1px;
+      margin-left: -1px;
+    }
+
+    .print-report .relative-public .to-the-public .to-the-public-choice {
+      display: flex;
+      align-items: center;
+      margin: 0 4px;
+    }
+
+    .print-report .relative-public .to-the-public .to-the-public-choice input {
+      width: 8px;
+      height: 8px;
+      border: 1px solid #000000;
+      margin-right: -16px;
+    }
+
+    .print-report .relative-public .to-the-public .unit-code {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .print-report .relative-public .to-the-public .unit-code .unit-code-title {
+      margin-right: 70px;
+      text-indent: 12px;
+      /* transform: scale(0.8) translateX(-10%); */
+    }
+
+    .print-report .relative-public .to-the-public .unit-code .unit-code-title span {
+      font-size: 8px;
+    }
+
+    .print-report .relative-public .to-the-public .unit-code .unit-code-input {
+      margin-left: 6px;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      flex-grow: 1;
+    }
+
+    /* .print-report .relative-public .to-the-public .unit-code .unit-code-input input {
+            width: 17px;
+            height: 16px;
+            border: 1px solid #000000;
+            text-align: center;
+            margin-right: 7px;
+            font-size: 8px;
+        } */
+
+    .print-report .relative-public .to-the-public .unit-code .unit-code-input span {
+      width: 8px;
+      height: 1px;
+      background: #000;
+      margin-left: 7px;
+      margin-right: 8px;
+    }
+
+    .print-report .relative-public .private {
+      width: 450px;
+      flex-grow: 1;
+      height: 58px;
+      margin-top: -23px;
+      border: 1px solid #000000;
+      border-right: none;
+      margin-left: -1px;
+      display: flex;
+    }
+
+    .print-report .relative-public .private .private-choice {
+      display: flex;
+      align-items: center;
+      border-right: 1px solid #000000;
+    }
+
+    .print-report .relative-public .private .private-choice input {
+      width: 10px;
+      height: 10px;
+      border: 1px solid #000000;
+      margin: 0 4px;
+    }
+
+    .print-report .relative-public .private .private-category {
+      width: 366px;
+      /* margin-left: 4px; */
+      border-left: 1px solid #000000;
+      flex-grow: 1;
+    }
+
+    .print-report .relative-public .private .private-category .ID-NO {
+      display: flex;
+      border-bottom: 1px solid #000000;
+      height: 23px;
+      line-height: 23px;
+      padding-left: 5px;
+    }
+
+    .print-report .relative-public .private .private-category .ID-NO input {
+      height: 22px;
+      line-height: 22px;
+      flex-grow: 1;
+    }
+
+    .print-report .relative-public .private .private-category .private-input-area {
+      display: flex;
+      height: 23px;
+      align-items: center;
+    }
+
+    .print-report .relative-public .private .private-category .private-input-area .private-input {
+      display: flex;
+      align-items: center;
+    }
+
+    .print-report .relative-public .private .private-category .private-input-area .private-input input {
+      width: 10px;
+      height: 10px;
+      border: 1px solid #000000;
+      margin: 0 2px;
+      font-size: 10px;
+    }
+
+    .print-report .relative-public .private .private-category .private-input-area .private-input p {
+      font-size: 8px;
+    }
+
+    .print-report .relative-public .private .private-category .private-input-area .private-input p span {
+      font-size: 6px;
+    }
+
+    .print-report .correspondent-beneficiary {
+      display: flex;
+      height: 78px;
+    }
+
+    .print-report .correspondent-beneficiary .correspondent-beneficiary-text {
+      width: 247px;
+      text-align: center;
+      border-right: 1px solid #000000;
+      border-bottom: 1px solid #000000;
+      line-height: 14px;
+      position: relative;
+    }
+
+    .print-report .correspondent-beneficiary .correspondent-beneficiary-text::before {
+      content: "54/56a";
+      width: 24px;
+      height: 14px;
+      white-space: nowrap;
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      font-style: italic;
+      /* transform: scale(0.7) translateX(-2px); */
+    }
+
+    .print-report .correspondent-beneficiary .correspondent-beneficiary-text::after {
+      content: "";
+      width: 30px;
+      height: 14px;
+      border: 1px solid #000000;
+      position: absolute;
+      top: -1px;
+      left: -1px;
+    }
+
+    .print-report .correspondent-beneficiary .correspondent-beneficiary-text p {
+      /* transform: scale(0.7); */
+      white-space: nowrap;
+    }
+
+    .print-report .correspondent-beneficiary .correspondent-beneficiary-text p i {
+      margin-left: -22px;
+    }
+
+    .print-report .correspondent-beneficiary .correspondent-beneficiary-text p:first-child {
+      margin-top: 6px;
+    }
+
+    .print-report .correspondent-beneficiary .correspondent-beneficiary-text p:last-child {
+      font-size: 7px;
+      line-height: 10px;
+    }
+
+    .print-report .correspondent-beneficiary .correspondent-beneficiary-input {
+      width: calc(100% - 200px);
+      border-bottom: 1px solid #000000;
+    }
+
+    .correspondent-beneficiary-input-border {
+      border-top: 1px solid #000000;
+    }
+
+    .print-report .correspondent-beneficiary .correspondent-beneficiary-input p {
+      height: 50%;
+    }
+
+    .print-report .correspondent-beneficiary .correspondent-beneficiary-input p:last-child {
+      border-top: 1px dotted #000000;
+    }
+
+    .print-report .correspondent-beneficiary .correspondent-beneficiary-input p input {
+      width: 100%;
+      height: 100%;
+      font-size: 10px;
+    }
+
+    .print-report .beneficiary-name {
+      display: flex;
+      height: 82px;
+    }
+
+    .print-report .beneficiary-name .beneficiary-name-text {
+      width: 247px;
+      text-align: center;
+      border-right: 1px solid #000000;
+      border-bottom: 1px solid #000000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 12px;
+      position: relative;
+    }
+
+    .print-report .beneficiary-name .beneficiary-name-text::before {
+      content: "57a";
+      width: 24px;
+      height: 14px;
+      line-height: 10px;
+      border: 1px solid #000000;
+      font-size: 8px;
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      font-style: italic;
+    }
+
+    .print-report .beneficiary-name .beneficiary-name-text p {
+      /* padding-left: 15px; */
+      /* transform: scale(0.7); */
+      white-space: nowrap;
+    }
+
+    .print-report .beneficiary-name .beneficiary-name-text p:first-child {
+      margin-top: 6px;
+    }
+
+    .print-report .beneficiary-name .beneficiary-name-text p:last-child {
+      font-size: 7px;
+      line-height: 10px;
+    }
+
+    .print-report .beneficiary-name .payee-name-text::before {
+      content: "59a";
+    }
+
+    .print-report .beneficiary-name .correspondent-beneficiary-input {
+      width: calc(100% - 200px);
+      border-bottom: 1px solid #000000;
+    }
+
+    .print-report .beneficiary-name .correspondent-beneficiary-input p:nth-child(1) {
+      /* border-bottom: 1px solid #000000; */
+      text-indent: 6px;
+    }
+
+    .print-report .beneficiary-name .correspondent-beneficiary-input p:last-child {
+      border-top: 1px dotted #000000;
+    }
+
+    .print-report .beneficiary-name .correspondent-beneficiary-input p input {
+      height: 22px;
+      width: 100%;
+      font-size: 10px;
+    }
+
+    .print-report .information {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #000000;
+      height: 85px;
+    }
+
+    .print-report .information .information-left {
+      display: flex;
+      height: 83px;
+    }
+
+    .print-report .information .information-left .information-left-title {
+      width: 237px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      border-right: 1px solid #000000;
+    }
+
+    .print-report .information .information-left .information-left-title p:last-child {
+      /* font-size: 8px; */
+      /* transform: scale(0.8); */
+      white-space: nowrap;
+    }
+
+    .print-report .information .information-left .information-left-area {
+      width: 482px;
+      border-right: 1px solid #000000;
+    }
+
+    .print-report .information .information-left .information-left-area p {
+      height: 28px;
+      line-height: 28px;
+      font-size: 8px;
+      text-indent: 6px;
+    }
+
+    .print-report .information .information-left .information-left-area textarea {
+      width: 100%;
+      height: 24px;
+      font-size: 10px;
+      line-height: 12px;
+      border-top: 1px solid #000000;
+    }
+
+    .print-report .information .information-right {
+      width: 250px;
+      flex-grow: 1;
+    }
+
+    .print-report .information .information-right .information-right-title {
+      text-align: center;
+      font-size: 10px;
+      line-height: 12px;
+    }
+
+    .print-report .information .information-right .information-right-title p:last-child {
+      font-size: 7px;
+      line-height: 10px;
+    }
+
+    .print-report .information .information-right .information-right-chiose {
+      display: flex;
+      justify-content: center;
+    }
+
+    .information-checkbox-group .el-checkbox {
+      margin-right: 0;
+    }
+
+    .information-checkbox-group {
+      display: flex;
+    }
+
+    .bonded-checkbox-group .el-checkbox {
+      margin-right: 0;
+    }
+
+    .bonded-checkbox-group .el-checkbox:last-child {
+      margin-right: 0;
+    }
+
+    .print-report .information .information-right .information-right-chiose label {
+      display: flex;
+      align-items: center;
+      /* margin-left: 4px; */
+    }
+
+    .print-report .information .information-right .information-right-chiose label input {
+      width: 8px;
+      height: 8px;
+      border: 1px solid #000000;
+      /* margin-right: 2px; */
+    }
+
+    .print-report .information .information-right .information-right-chiose label p {
+      font-size: 8px;
+    }
+
+    .print-report .resident-code {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      padding-left: 6px;
+      padding-right: 27px;
+      border-bottom: 1px solid #000000;
+      justify-content: space-between;
+    }
+
+    .print-report .resident-code .resident-region-code input {
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
+      font-size: 8px;
+      border: 1px solid #000000;
+      margin-left: 8px;
+    }
+
+    .print-report .amount-choice {
+      padding: 0 6px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #000000;
+    }
+
+    .print-report .amount-choice .amount-choice-radios {
+      display: flex;
+    }
+
+    .print-report .amount-choice .amount-choice-radios label {
+      display: flex;
+      align-items: center;
+    }
+
+    .print-report .amount-choice .amount-choice-radios label input {
+      width: 10px;
+      height: 10px;
+      border: 1px solid #000000;
+      margin: 0 6px;
+      font-size: 10px;
+    }
+
+    .print-report .transac {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #000000;
+      height: 86px;
+    }
+
+    .print-report .transac .transac-code {
+      display: flex;
+      height: 100%;
+    }
+
+    .print-report .transac .transac-code .transac-code-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      width: 104px;
+      border-right: 1px solid #000000;
+    }
+
+    .print-report .transac .transac-code .transac-code-title p:last-child {
+      font-size: 8px;
+    }
+
+    .print-report .transac .transac-code .transac-code-input {
+      width: 177px;
+    }
+
+    .print-report .transac .transac-code .transac-code-input p {
+      /* padding: 2px 8px; */
+      height: 43px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      border-right: 1px solid #000000;
+    }
+
+    .print-report .transac .transac-code .transac-code-input p:first-child {
+      border-bottom: 1px solid #000000;
+    }
+
+    .print-report .transac .transac-code .transac-code-input p input {
+      /* width: 16px;
+            height: 16px;
+            border: 1px solid #000000;
+            margin-right: 2px;
+            line-height: 10px;
+            font-size: 8px; */
+    }
+
+    .print-report .transac .transac-code .transac-code-input p input:last-child {
+      margin-right: 0;
+    }
+
+    .print-report .transac .currency-money {
+      display: flex;
+      height: 85px;
+    }
+
+    .print-report .transac .currency-money .currency-money-title {
+      width: 143px;
+      border-right: 1px solid #000000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .print-report .transac .currency-money .currency-money-title p:last-child {
+      font-size: 8px;
+    }
+
+    .print-report .transac .currency-money .currency-money-input {
+      border-right: 1px solid #000000;
+    }
+
+    .print-report .transac .currency-money .currency-money-input p {
+      height: 43px;
+    }
+
+    .print-report .transac .currency-money .currency-money-input p:last-child {
+      border-top: 1px solid #000000;
+    }
+
+    .print-report .transac .currency-money .currency-money-input p input {
+      width: 175px;
+      height: 40px;
+    }
+
+    .print-report .transac .transac-remark .transac-remark-input {
+      border-right: none;
+    }
+
+    .print-report .transac .transac-remark .transac-remark-input p input {
+      width: 352px;
+    }
+
+    .print-report .bonded {
+      display: flex;
+      height: 36px;
+      line-height: 36px;
+      text-align: center;
+      align-items: center;
+      border-bottom: 1px solid #000000;
+    }
+
+    .print-report .bonded .bonded-title {
+      width: 280px;
+      /* border-right: 1px solid #000000; */
+      font-size: 10px;
+      display: flex;
+      /* transform: scale(0.8) translateX(-15px); */
+      white-space: nowrap;
+    }
+
+    .print-report .bonded .bonded-choice {
+      width: 133px;
+      border-right: 1px solid #000000;
+      border-left: 1px solid #000000;
+      display: flex;
+      justify-content: center;
+    }
+
+    .print-report .bonded .bonded-choice .bonded-choice-level {
+      display: flex;
+      align-items: center;
+    }
+
+    .print-report .bonded .bonded-choice .bonded-choice-level input {
+      width: 10px;
+      height: 10px;
+      border: 1px solid #000000;
+      margin-right: 4px;
+    }
+
+    .print-report .bonded .bonded-choice .bonded-choice-level:last-child {
+      margin-left: 10px;
+    }
+
+    .print-report .bonded .contract-no {
+      display: flex;
+      height: 36px;
+    }
+
+    .print-report .bonded .contract-no p {
+      width: 110px;
+      text-align: center;
+      border-right: 1px solid #000000;
+    }
+
+    .print-report .bonded .invoice-no p {
+      width: 126px;
+    }
+
+    .print-report .bonded .contract-no input {
+      width: 192px;
+      height: 36px;
+      border-right: 1px solid #000000;
+    }
+
+    .print-report .bonded .invoice-no input {
+      width: 200px;
+    }
+
+    .print-report .bonded .contract-no:last-child input {
+      border-right: none;
+    }
+
+    .print-report .approval-no {
+      display: flex;
+      height: 36px;
+      line-height: 36px;
+      border-bottom: 1px solid #000000;
+    }
+
+    .print-report .approval-no p {
+      width: 180px;
+      height: 36px;
+      border-right: 1px solid #000000;
+      font-size: 8px;
+    }
+
+    .print-report .approval-no input {
+      width: 100%;
+      height: 36px;
+    }
+
+    .print-report .signature {
+      display: grid;
+      grid-template-columns: 0.865fr 1.1fr 1fr;
+      grid-template-rows: auto auto auto;
+    }
+
+    .print-report .signature .bottom-info {
+      display: flex;
+      height: 35px;
+      line-height: 35px;
+      align-items: center;
+      border-top: 1px solid #000000;
+    }
+
+    .print-report .signature .bottom-info p {
+      width: 46%;
+      background: #999;
+      font-size: 12px;
+      border-right: 1px solid #000000;
+      text-align: center;
+    }
+
+    .print-report .signature .bottom-info input {
+      width: 60%;
+      height: 35px;
+      /* line-height: 20px; */
+      border-right: 1px solid #000000;
+    }
+
+    .print-report .signature .signature-tile {
+      background: #999999;
+      border-right: 1px solid #000000;
+      border-bottom: 1px solid #000000;
+      text-align: center;
+      height: 50px;
+      padding-top: 5px;
+    }
+
+    .print-report .signature .signature-tile p:last-child {
+      font-size: 8px;
+    }
+
+    .print-report .signature .bank-use-only-main .bank-use-only-main-item {
+      border-bottom: 1px solid #000000;
+      display: flex;
+      align-items: center;
+    }
+
+    .print-report .signature .bank-use-only-main .bank-use-only-main-item:last-child {
+      border-bottom: none;
+    }
+
+    .print-report .signature .bank-use-only-main .bank-use-only-main-item .main-item-name {
+      width: 46%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 10px;
+      line-height: 14px;
+      /* height: 45px;
+            padding: 8px 0; */
+    }
+
+    .print-report .signature .bank-use-only-main .bank-use-only-main-item .main-item-name p:last-child {
+      font-size: 8px;
+    }
+
+    .print-report .signature .bank-use-only-main .bank-use-only-main-item .main-item-input {
+      border-left: 1px solid #000000;
+      border-right: 1px solid #000000;
+      width: 60%;
+      height: 43px;
+    }
+
+    .print-report .signature .bank-use-only-main .bank-use-only-main-item .main-item-input input {
+      width: 100%;
+      height: 38px;
+    }
+
+    .print-report .signature .bank-use-only-main .bank-use-only-main-item .main-item-input label {
+      display: flex;
+      padding-left: 6px;
+      align-items: center;
+      margin: 2px 0;
+      font-size: 10px;
+    }
+
+    .print-report .signature .bank-use-only-main .bank-use-only-main-item .main-item-input label input {
+      width: 10px;
+      height: 10px;
+      border: 1px solid #000000;
+      margin-right: 4px;
+    }
+
+    .print-report .signature .bank-use-only-main .bank-use-only-main-item .main-item-input label p {
+      font-size: 8px;
+      line-height: 10px;
+    }
+
+    .print-report .signature .bank-use-only-main .bank-use-only-main-item:last-child .main-item-input {
+      height: 90px;
+      /* padding: 10px; */
+    }
+
+    .print-report .signature .applicant-signature:last-child .applicant-signature-main {
+      border-right: none;
+    }
+
+    .applicant-signature-main {
+      height: 306px;
+    }
+
+    .print-report .signature .applicant-signature:last-child .signature-tile {
+      border-right: none;
+    }
+
+    .print-report .signature .applicant-signature .applicant-signature-main {
+      border-right: 1px solid #000000;
+      padding: 2px;
+      line-height: 12px;
+    }
+
+    .print-report .signature .applicant-signature .applicant-signature-main p {
+      font-size: 8px;
+    }
+
+    .print-report .signature .applicant-signature .applicant-signature-main p:nth-child(2) {
+      font-size: 7px;
+    }
+
+    .print-report .signature .applicant-signature .applicant-signature-main textarea {
+      width: 100%;
+      height: 200px;
+      font-size: 10px;
+      line-height: 12px;
+    }
+
+    .print-report .signature .applicant-signature .applicant-signature-main .applicant-signature-input .input-level {
+      display: flex;
+      align-items: center;
+    }
+
+    .print-report .signature .applicant-signature .applicant-signature-main .applicant-signature-input .input-level input {
+      width: 112px;
+      height: 24px;
+    }
+
+    .print-report .signature .applicant-signature .bank-signature textarea {
+      height: 188px;
+    }
+
+    .print-report .signature .applicant-signature .bank-signature .applicant-signature-input input {
+      width: 100px;
+    }
+
+    .applicant-signature-input {
+      position: relative;
+      margin-left: 10px;
+      margin-top: 35px;
+    }
+
+    .print-report .signature .applicant-signature .last-bottom-info input {
+      border-right: none;
+    }
+
+    .bonded-input {
+      width: 70%;
+      height: 36px;
+      border-left: 1px solid #000000;
+      display: flex;
+      align-items: flex-start;
+      align-items: center;
+    }
+
+    .bonded-input input {
+      width: 90%;
+    }
+
+    .input-signature-area {
+      width: 120px;
+      line-height: 20px;
+      height: 21px;
+    }
+
+    .unit-code-input input {
+      padding: 0;
+    }
+
+    .transac-code-input input {
+      padding: 2px;
+    }
+
+    .transactionCodeClass2 {
+      padding-left: 4px;
+      padding-bottom: 2px;
+    }
+
+    .remitter-textarea {
+      height: 34px;
+      overflow: hidden;
+      margin-top: 4px;
+      margin-left: 8px;
+    }
+
+    .print-report-input-one input {
+      padding-left: 2px;
+    }
+
+    .print-report-input-two input {
+      padding-left: 2px;
+    }
+
+    .print-report-input-three input {
+      padding-left: 2px;
+    }
+
+    .print-report-input-four input {
+      padding-left: 2px;
+    }
+
+    .print-report-input-five input {
+      padding-left: 2px;
+    }
+
+    .transfor p {
+      margin-bottom: 0
+    }
+  </style>
+{% endblock %}
+
+{% block page_js %}
+  <script>
+    $("#btn-submit").click(function () {
+    let bop_no = "";
+    let els = $("#bop-rerporting-no-inputs input");
+    for (let el of els) {
+      let jel = $(el);
+      bop_no += jel.val();
+    }
+
+    $("#bop_no").val(bop_no);
+    console.log(bop_no);
+
+    $("#form").submit();
+  });
+  </script>
+{% endblock %}

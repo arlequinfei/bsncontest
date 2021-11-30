@@ -1,0 +1,52 @@
+<aside class="aside aside-fixed">
+    <div class="aside-header">
+      <a href="#" class="aside-logo">瑞贸通<span>BSN</span></a>
+      <a href="#" class="aside-menu-link">
+        <i data-feather="menu"></i>
+        <i data-feather="x"></i>
+      </a>
+    </div>
+    <div class="aside-body">
+      <div class="aside-loggedin">
+        <div class="d-flex align-items-center justify-content-start">
+        <a href="" class="avatar">
+            <img src="/static/images/swfu.png" class="rounded-circle" alt="">
+        </a>
+          <div class="aside-loggedin-user" style="margin-left: 20px;margin-bottom: 10px">
+          <a href="#" class="d-flex align-items-center justify-content-between mg-b-2" data-toggle="collapse">
+            <h6 class="tx-semibold mg-b-0">{{ current_user.name }}</h6>
+          </a>
+          <p class="tx-color-03 tx-12 mg-b-0">{{ current_user.role }}</p>
+        </div>
+          <div class="aside-alert-link">
+            <a href="{{ url_for("logout") }}" data-toggle="tooltip" title="Sign out">
+              <i data-feather="log-out"></i></a>
+          </div>
+        </div>
+      </div>
+      <!-- aside-loggedin -->
+      <ul class="nav nav-aside">
+        <li class="nav-label"><a href="{{ url_for("index") }}" style="color: #001737;"><i data-feather="layers"></i>首页</a></li>
+        <li class="nav-label"><i data-feather="layers"></i>支付清算</li>
+        <li class="nav-item  pd-l-10">
+          <a href="{{ url_for("upload") }}" class="nav-link">
+            <i data-feather="sidebar"></i>
+            <span>进口付汇</span>
+          </a>
+        </li>
+        <li class="nav-item  pd-l-10">
+          <a href="{{ url_for("upload_export") }}" class="nav-link">
+            <i data-feather="sidebar"></i>
+            <span>出口收汇</span>
+          </a>
+        </li>
+        <li class="nav-label"><i data-feather="layers"></i>报关单查询校验</li>
+        <li class="nav-item  pd-l-10">
+          <a href="{{ url_for("list_custom") }}" class="nav-link">
+            <i data-feather="sidebar"></i>
+            <span>所有报关单</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>

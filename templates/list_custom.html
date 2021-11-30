@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block container %}
+  <div class="content content-fixed" style="margin-top: 0px" id="app">
+    <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+      <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+        <div>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+              <li class="breadcrumb-item"><i data-feather="layers"></i><a href="#">报关单查询校验</a></li>
+              <li class="breadcrumb-item active" aria-current="page">所有报关单</li>
+            </ol>
+          </nav>
+          <h4 class="mg-b-0 tx-spacing--1">所有报关单</h4>
+        </div>
+      </div>
+      <table class="table table-striped mg-b-0">
+        <thead>
+        <tr>
+          <th scope="col" class="tx-center">ID</th>
+          <th scope="col">海关编号</th>
+          <th scope="col">境外发货人</th>
+          <th scope="col">境内收货人</th>
+          <th scope="col">总价</th>
+          <th scope="col">余额</th>
+          <th scope="col">结算类型</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for custom in customs %}
+          <tr>
+            <td scope="row" class="tx-center">{{ custom.id }}</td>
+            <td>
+              <a href="{{ url_for("transfer_list", cus_id=custom.id, show_step=0) }}">{{ custom.cus_id }}</a>
+            </td>
+            <td>{{ custom.sender }}</td>
+            <td>{{ custom.receiver }}</td>
+            <td>{{ custom.total_price }}</td>
+            <td>{{ custom.surplus }}</td>
+            <td>{{ custom.contract_type }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div><!-- table-responsive -->
+  </div>
+{% endblock %}

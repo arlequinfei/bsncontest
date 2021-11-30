@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block container %}
+  <div class="content content-fixed" style="margin-top: 0px" id="app">
+    <div class="container pd-x-0 pd-lg-x-10 pd-xl-x-0">
+      <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+        <div>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+              <li class="breadcrumb-item"><i data-feather="layers"></i><a href="#">报关单查询校验</a></li>
+              <li class="breadcrumb-item active" aria-current="page">付汇详情</li>
+            </ol>
+          </nav>
+          <h4 class="mg-b-0 tx-spacing--1">付汇详情</h4>
+        </div>
+      </div>
+      <div class="row row-sm mg-t-20 mg-b-30 d-none" id="is_show">
+        <div class="col-sm-12">
+          <div data-label="步骤导航" class="df-example">
+            <ul class="steps">
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">1</span>
+                  <span class="step-title">上传单据</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">2</span>
+                  <span class="step-title">OCR识别</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">3</span>
+                  <span class="step-title">区块链校验</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">4</span>
+                  <span class="step-title">付汇申请</span>
+                </a>
+              </li>
+              <li class="step-item">
+                <a href="" class="step-link">
+                  <span class="step-number">5</span>
+                  <span class="step-title">填写付汇申请</span>
+                </a>
+              </li>
+              <li class="step-item active">
+                <a href="" class="step-link">
+                  <span class="step-number">6</span>
+                  <span class="step-title">数据BSN上链</span>
+                </a>
+              </li>
+              <li class="step-item active">
+                <a href="" class="step-link">
+                  <span class="step-number">7</span>
+                  <span class="step-title">数据校验</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row row-sm mg-b-10">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+          <div style="min-height: 400px;width: 100%" class="card card-body">
+            <div style="margin: auto;font-size: 50px;color:	#A9A9A9 ">
+              <a href="/static/uploads/{{ custom.img_path }}" data-fslightbox="gallery">
+                <img src="/static/uploads/{{ custom.img_path }}" style="width: 100%">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
+      <table class="table table-striped mg-b-0">
+        <thead>
+        <tr>
+          <th scope="col" class="text-center">ID</th>
+          <th scope="col">申报号码</th>
+          <th scope="col">银行业务编号</th>
+          <th scope="col">收电行/付款行</th>
+          <th scope="col">金额</th>
+          <!-- <th scope="col">现汇金额</th> -->
+          <th scope="col">汇款人名称及地址</th>
+          <!-- <th scope="col">组织机构代码</th> -->
+          <!-- <th scope="col">收款人银行信息</th> -->
+          <th scope="col">收款人账号</th>
+          <!-- <th scope="col">购汇汇率</th> -->
+          <th scope="col">等值人民币</th>
+          <th scope="col" class="tx-center">日期</th>
+          <th scope="col"  class="tx-center">区块链核验</th>
+          <th scope="col"  class="tx-center">操作</th>
+          <!-- <th scope="col">手续费</th> -->
+          <!-- <th scope="col">合计</th> -->
+          <!-- <th scope="col">经办</th> -->
+          <!-- <th scope="col">复核</th> -->
+        </tr>
+        </thead>
+        <tbody>
+        {% for transfer in transfers %}
+          <tr>
+            <th scope="row" class="tx-center">{{ transfer.id }}</th>
+            <td><a href="{{ url_for("transfer_detail",id=transfer.id) }}">{{ transfer.bop_no }}</a></td>
+            <td>{{ transfer.trans_no }}</td>
+            <td>{{ transfer.receiver }}</td>
+            <td>{{ transfer.amount }}</td>
+            <!--<td>{{ transfer.amount_fx }}</td>-->
+            <td>{{ transfer.remitter }}</td>
+            <!--<td>{{ transfer.unit_code }}</td>-->
+            <!--<td>{{ transfer.bene_bank_no }}</td>-->
+            <td>{{ transfer.bene_bank }}</td>
+            <!--<td>{{ transfer.rate }}</td>-->
+            <td>{{ transfer.rmb_equ }}</td>
+            <!--<td>{{ transfer.commission }}</td>-->
+            <!--<td>{{ transfer.total_charge }}</td>-->
+            <!--<td>Front-End Engineer</td>-->
+            <!--<td>Computer Science</td>-->
+            <td class="tx-center">{{ transfer.dt }}</td>
+            <td class="tx-center">
+              <span class="badge badge-secondary" id="bc-status-{{ transfer.id }}">未校验</span>
+            </td>
+            <td class="tx-center">
+              <button data-trans-id="{{ transfer.id }}" type="button" class="bc-btn btn btn-xs btn-outline-primary" style="padding: 2px">校验</button>
+            </td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">链上信息</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- table-responsive -->
+  </div>
+{% endblock %}
+
+{% block page_js %}
+  <script>
+    $(document).ready(function () {
+      if(window.location.search!='?show_step=0'){
+        $('#is_show').removeClass('d-none')
+      }
+      $(".bc-btn").click(async function () {
+
+        let trans_id = this.dataset.transId;
+        let res = null;
+        try {
+
+          res = await axios.get(
+              `/api/verify/${trans_id}`,
+              {timeout: 30*1000}
+          );
+          console.log(res);
+
+          //$('#app').loading('destroy');
+          //this.orc_data = {"id": 1};
+
+        } catch (err) {
+          // return (e.message)
+          alert('服务器出错')
+          console.log(err)
+        }
+        if(res.data["status"]){
+          $(`#bc-status-${trans_id}`).text("校验成功").removeClass("badge-secondary").addClass("badge-success")
+        }
+        else {
+          $(`#bc-status-${trans_id}`).text("校验失败").removeClass("badge-secondary").addClass("badge-danger")
+        }
+
+
+        let res1 = null;
+         try {
+
+          res1 = await axios.get(
+              `/api/bc_info/${trans_id}`,
+              {timeout: 30*1000}
+          );
+          console.log(res);
+
+          //$('#app').loading('destroy');
+          //this.orc_data = {"id": 1};
+
+        } catch (err) {
+          // return (e.message)
+          alert('服务器出错')
+          console.log(err)
+        }
+        let data1 = res1["data"]
+        $("#modal-body").html(
+            "<p>Block Number: <br> <code>" + data1["block_number"] + "</code></p>" +
+            "<p>Block Hash: <code>" + data1["block_hash"] + "</code></p>" +
+            "<p>TX ID: <code>" + data1["tx_id"] + "</code></p>"
+        );
+        $('#exampleModalLong').modal('show');
+      });
+    });
+  </script>
+{% endblock %}

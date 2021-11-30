@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static',filename='assets/img/favicon.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/new.css') }}">
+
+  <title>瑞贸通</title>
+
+  <!-- vendor css -->
+  <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='lib/ionicons/css/ionicons.min.css') }}">
+
+  <!-- DashForge CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/dashforge.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/dashforge.auth.css') }}">
+</head>
+
+<body>
+
+  <header class="navbar navbar-header navbar-header-fixed">
+    <a href="#" id="mainMenuOpen" class="burger-menu"><i data-feather="menu"></i></a>
+    <div class="navbar-brand">
+      <a href="#" class="df-logo">瑞贸通<span>BSN</span></a>
+    </div><!-- navbar-brand -->
+    <div id="navbarMenu" class="navbar-menu-wrapper">
+      <div class="navbar-menu-header">
+        <a href="#" class="df-logo">瑞贸通<span>BSN</span></a>
+        <a id="mainMenuClose" href=""><i data-feather="x"></i></a>
+      </div><!-- navbar-menu-header -->
+
+      <li class="nav-label pd-l-20 pd-lg-l-25 d-lg-none">Main Navigation</li>
+
+    </div><!-- navbar-menu-wrapper -->
+
+  </header><!-- navbar -->
+
+  <div class="content content-fixed content-auth">
+    <div class="container">
+      <div class="media align-items-stretch justify-content-center ht-100p pos-relative" id="one">
+        <div class="media-body align-items-center d-none d-lg-flex">
+
+          <div class="mx-wd-600">
+            <img src="/static/images/3263dd00.png" class="img-fluid" alt="">
+          </div>
+
+        </div>
+        <!-- media-body -->
+        <div class="sign-wrapper mg-lg-l-50 mg-xl-l-60">
+          <div class="wd-100p">
+            <h3 class="tx-color-01 mg-b-40">登 陆</h3>
+            {% include 'parts/flash.html' %}
+            <form method="post" action="{{ url_for("login") }}">
+              {{ form.csrf_token }}
+              <div class="form-group">
+                  {{ form.username.label }}
+                  <input type="text" class="form-control" placeholder="输入用户名" name="username">
+              </div>
+              <div class="form-group">
+                  {{ form.password.label }}
+                  <input type="password" class="form-control" placeholder="输入密码" name="password">
+              </div>
+              <button class="btn btn-brand-02 btn-block" type="submit">登 陆</button>
+            </form>
+          </div>
+        </div><!-- sign-wrapper -->
+      </div><!-- media -->
+    </div><!-- container -->
+  </div><!-- content -->
+
+  <footer class="footer">
+    <div>
+      <span>&copy; 西南林业大学</span>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static',filename="lib/jquery/jquery.min.js") }}"></script>
+  <script src="{{ url_for('static',filename="lib/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
+  <script src="{{ url_for('static',filename="lib/feather-icons/feather.min.js") }}"></script>
+  <script src="{{ url_for('static',filename="lib/perfect-scrollbar/perfect-scrollbar.min.js") }}"></script>
+
+  <script src="{{ url_for('static',filename="assets/js/dashforge.js") }}"></script>
+
+  <!-- append theme customizer -->
+  <script src="{{ url_for('static',filename="lib/js-cookie/js.cookie.js") }}"></script>
+</body>
+
+</html>
